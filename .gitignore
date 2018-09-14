@@ -1,0 +1,12 @@
+.idea/
+
+bower_components/
+node_modules/
+.pulp-cache/
+output/
+ps-output/
+generated-docs/
+.psc-package/
+.psc*
+.purs*
+.psa*
