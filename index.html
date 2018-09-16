@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <script src="lib/vue.js"></script>
+    <script src="src/sudoku.js"></script>
+    <script src="src/ps-output.js"></script>
+    <style>
+        .sudoku-container {
+            display: grid;
+            grid-row-gap: 12px;
+            grid-column-gap: 12px;
+            grid-auto-columns: max-content;
+            margin-bottom: 18px;
+        }
+        .sudoku-field {
+            grid-row: 1 / 1;
+            grid-column: 1/ 1;
+            display: flex;
+            flex-wrap: wrap;
+            width: 359px;
+            box-sizing: content-box;
+            border: 2px solid #333;
+            text-align: center;
+            font-family: sans-serif;
+            cursor: default;
+        }
+        .sudoku-field .number-box {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            box-sizing: border-box;
+            border-right: 1px solid #bbb;
+            border-bottom: 1px solid #bbb;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+        .sudoku-field .number-box:nth-child(3n) {
+            border-right-color: #333;
+            border-right-width: 2px;
+        }
+        .sudoku-field .number-box:nth-child(n+19):nth-child(-n+27),
+        .sudoku-field .number-box:nth-child(n+46):nth-child(-n+54) {
+            border-bottom-color: #333;
+            border-bottom-width: 2px;
+        }
+        .sudoku-field .number-box:nth-child(9n) {
+            border-right: none;
+            width: 39px;
+        }
+        .sudoku-field .number-box:nth-child(n+73) {
+            border-bottom: none;
+            height: 39px
+        }
+        .sudoku-field .number-box.editable {
+            background-color: #eef;
+        }
+        .sudoku-field .number-box.editable > span {
+            cursor: pointer;
+        }
+        .sudoku-field .number-box > span {
+            margin: auto;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+        }
+
+        .number-selector {
+            grid-row: 2 / 2;
+            grid-column: 1 / 1;
+            display: flex;
+            text-align: center;
+            justify-content: space-between;
+        }
+        .number-selector.vertical {
+            grid-row: 1 / 1;
+            grid-column: 2 / 2;
+            flex-direction: column-reverse;
+        }
+        .selectable-number {
+            display: inline-block;
+            border: 1px solid #777777;
+            box-sizing: border-box;
+            width: 34px;
+            height: 34px;
+            line-height: 31px;
+            cursor: pointer;
+        }
+        .selectable-number.active {
+            background-color: lawngreen;
+        }
+
+        button {
+            padding: 4px 18px;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script src="app.js"></script>
+</html>
