@@ -33,30 +33,21 @@ Vue.component(`number-selector`, {
     // TODO implement some sort of check button to conclude the game
     // TODO implement eraser for when you want to clear several differing numbers
 
-    const Sudoku = PS[`Sudoku.Generation`];
+    const Sudoku = {
+        generate: PS[`Sudoku.Generation`].generate,
+        isValid: PS[`Sudoku.Validation`].isValid
+    };
 
     new Vue({
         el: `#app`,
         data: {
-            msg: `fghdoikdjfg`,
             numbers: undefined,
             inputNumbers: Array.from({ length: 9 }, (_, i) => i + 1),
             activeNumber: 1,
-            emptyRate: .55,
-            isRevealed: false
-        },
-        methods: {
-            editableClick(numObj) {
-                numObj.playerValue = this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
-            },
-            selectionChanged(num) {
-                this.activeNumber = num;
-            },
-            clearInputs() {
-                this.numbers.forEach(num => num.editable && (num.playerValue = undefined));
-            },
-            toggleReveal() {
-                this.isRevealed = !this.isRevealed;
+            isRevealed: false,
+            boardFeedback : {
+                correct: false,
+                wrong: false
             }
         },
         created() {
@@ -70,10 +61,48 @@ Vue.component(`number-selector`, {
                 const editable = removableIndices.includes(i);
                 return {
                     value,
-                    playerValue: editable ? undefined : value,
+                    playerValue: undefined,
                     editable
                 };
             });
+        },
+        computed: {
+            isFilledOut() {
+                return this.editableNums.filter(numObj => numObj.playerValue === undefined).length === 0;
+            },
+            editableNums() {
+                return this.numbers.filter(numObj => numObj.editable);
+            }
+        },
+        methods: {
+            editableClick(numObj) {
+                numObj.playerValue = this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
+            },
+            selectionChanged(num) {
+                this.activeNumber = num;
+            },
+            clearInputs() {
+                this.numbers.forEach(num => num.editable && (num.playerValue = undefined));
+            },
+            toggleReveal() {
+                this.isRevealed = !this.isRevealed;
+            },
+            checkBoard() {
+                const numsOnBoard = this.numbers.map(num => num.editable ? num.playerValue : num.value);
+                this.showFeedback(Sudoku.isValid(numsOnBoard));
+            },
+            showFeedback(correct) {
+                if (correct) {
+                    this.boardFeedback.correct = true;
+                }
+                else {
+                    this.boardFeedback.wrong = true;
+                }
+
+                setTimeout(() => {
+                    this.boardFeedback.correct = this.boardFeedback.wrong = false;
+                }, 3000);
+            }
         },
         template: `
 <div>
@@ -89,6 +118,9 @@ Vue.component(`number-selector`, {
     </div>
     <button @click="clearInputs">Clear</button>
     <button @click="toggleReveal">{{isRevealed ? 'Conceal' : 'Reveal'}}</button>
+    <button v-if="isFilledOut" @click="checkBoard">Check</button>
+    <span v-show="boardFeedback.correct">Correct!</span>
+    <span v-show="boardFeedback.wrong">Board has errors</span>
 </div>
 `
     });

@@ -49,7 +49,7 @@ function newSudoku() {
             const secondBlock = wrapBlock(blocks[iBlockCol + 3]);
             const thirdBlock = wrapBlock(blocks[iBlockCol + 6]);
 
-            setupXsForNumber(firstBlock, secondBlock, thirdBlock);
+            setupXs(firstBlock, secondBlock, thirdBlock);
         });
 
         return undefined;
@@ -103,7 +103,7 @@ function newSudoku() {
             firstBlock.available.ys.splice(firstBlock.available.ys.findIndex(y => y === yFirst), 1);
         }
 
-        function setupXsForNumber(firstBlock, secondBlock, thirdBlock) {
+        function setupXs(firstBlock, secondBlock, thirdBlock) {
             const rowsFirstBlock = firstBlock.getRows();
             const rowsSecondBlock = secondBlock.getRows();
             const rowsThirdBlock = thirdBlock.getRows();
