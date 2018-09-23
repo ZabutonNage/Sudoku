@@ -23,5 +23,5 @@ Sudoku/src> npx bower i
 Build purescript part with the command below. This will bundle the purescript code into `ps-output.js` which gets referenced in `index.html`. 
 
 ```
-Sudoku/src> npx pulp build -m Sudoku.Generation -O --skip-entry-point --src-path ./ps-src -o ./ps-output --to ./ps-output.js
+Sudoku/src> npx pulp build -m Sudoku.Generation --modules Sudoku.Validation -O --skip-entry-point --src-path ./ps-src -o ./ps-output --to ./ps-output.js
 ```
