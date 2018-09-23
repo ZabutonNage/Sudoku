@@ -43,20 +43,6 @@ Vue.component(`number-selector`, {
             activeNumber: 1,
             isRevealed: false
         },
-        methods: {
-            editableClick(numObj) {
-                numObj.playerValue = this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
-            },
-            selectionChanged(num) {
-                this.activeNumber = num;
-            },
-            clearInputs() {
-                this.numbers.forEach(num => num.editable && (num.playerValue = undefined));
-            },
-            toggleReveal() {
-                this.isRevealed = !this.isRevealed;
-            }
-        },
         created() {
             const numbers = Sudoku.generate();
             // const numbers = newSudoku().getNumbers();
@@ -72,6 +58,20 @@ Vue.component(`number-selector`, {
                     editable
                 };
             });
+        },
+        methods: {
+            editableClick(numObj) {
+                numObj.playerValue = this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
+            },
+            selectionChanged(num) {
+                this.activeNumber = num;
+            },
+            clearInputs() {
+                this.numbers.forEach(num => num.editable && (num.playerValue = undefined));
+            },
+            toggleReveal() {
+                this.isRevealed = !this.isRevealed;
+            },
         },
         template: `
 <div>
