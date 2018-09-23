@@ -33,7 +33,10 @@ Vue.component(`number-selector`, {
     // TODO implement some sort of check button to conclude the game
     // TODO implement eraser for when you want to clear several differing numbers
 
-    const Sudoku = PS[`Sudoku.Generation`];
+    const Sudoku = {
+        generate: PS[`Sudoku.Generation`].generate,
+        isValid: PS[`Sudoku.Validation`].isValid
+    };
 
     new Vue({
         el: `#app`,
@@ -41,7 +44,11 @@ Vue.component(`number-selector`, {
             numbers: undefined,
             inputNumbers: Array.from({ length: 9 }, (_, i) => i + 1),
             activeNumber: 1,
-            isRevealed: false
+            isRevealed: false,
+            boardFeedback : {
+                correct: false,
+                wrong: false
+            }
         },
         created() {
             const numbers = Sudoku.generate();
@@ -81,7 +88,20 @@ Vue.component(`number-selector`, {
                 this.isRevealed = !this.isRevealed;
             },
             checkBoard() {
-                // TODO implement
+                const numsOnBoard = this.numbers.map(num => num.editable ? num.playerValue : num.value);
+                this.showFeedback(Sudoku.isValid(numsOnBoard));
+            },
+            showFeedback(correct) {
+                if (correct) {
+                    this.boardFeedback.correct = true;
+                }
+                else {
+                    this.boardFeedback.wrong = true;
+                }
+
+                setTimeout(() => {
+                    this.boardFeedback.correct = this.boardFeedback.wrong = false;
+                }, 3000);
             }
         },
         template: `
@@ -99,6 +119,8 @@ Vue.component(`number-selector`, {
     <button @click="clearInputs">Clear</button>
     <button @click="toggleReveal">{{isRevealed ? 'Conceal' : 'Reveal'}}</button>
     <button v-if="isFilledOut" @click="checkBoard">Check</button>
+    <span v-show="boardFeedback.correct">Correct!</span>
+    <span v-show="boardFeedback.wrong">Board has errors</span>
 </div>
 `
     });
