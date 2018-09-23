@@ -1,7 +1,7 @@
 module Sudoku.Validation (isValid) where
 
-import Prelude
-import Data.Array
+import Prelude (otherwise, ($), (&&), (<#>), (<>), (==))
+import Data.Array (any, catMaybes, drop, head, length, nub, null, snoc, tail, take)
 import Data.Foldable (all)
 
 
