@@ -59,6 +59,14 @@ Vue.component(`number-selector`, {
                 };
             });
         },
+        computed: {
+            isFilledOut() {
+                return this.editableNums.filter(numObj => numObj.playerValue === undefined).length === 0;
+            },
+            editableNums() {
+                return this.numbers.filter(numObj => numObj.editable);
+            }
+        },
         methods: {
             editableClick(numObj) {
                 numObj.playerValue = this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
@@ -72,6 +80,9 @@ Vue.component(`number-selector`, {
             toggleReveal() {
                 this.isRevealed = !this.isRevealed;
             },
+            checkBoard() {
+                // TODO implement
+            }
         },
         template: `
 <div>
@@ -87,6 +98,7 @@ Vue.component(`number-selector`, {
     </div>
     <button @click="clearInputs">Clear</button>
     <button @click="toggleReveal">{{isRevealed ? 'Conceal' : 'Reveal'}}</button>
+    <button v-if="isFilledOut" @click="checkBoard">Check</button>
 </div>
 `
     });
