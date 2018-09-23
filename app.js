@@ -38,11 +38,9 @@ Vue.component(`number-selector`, {
     new Vue({
         el: `#app`,
         data: {
-            msg: `fghdoikdjfg`,
             numbers: undefined,
             inputNumbers: Array.from({ length: 9 }, (_, i) => i + 1),
             activeNumber: 1,
-            emptyRate: .55,
             isRevealed: false
         },
         methods: {
@@ -70,7 +68,7 @@ Vue.component(`number-selector`, {
                 const editable = removableIndices.includes(i);
                 return {
                     value,
-                    playerValue: editable ? undefined : value,
+                    playerValue: undefined,
                     editable
                 };
             });
