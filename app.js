@@ -20,7 +20,7 @@ Vue.component(`number-selector`, {
     template: `
 <div class="number-selector">
     <span v-for="num in inputNumbers"
-          class="selectable-number"
+          class="square-box"
           :class="{ active: num === activeNumber }"
           @click="selectionChanged(num)"
     >{{num}}</span>
