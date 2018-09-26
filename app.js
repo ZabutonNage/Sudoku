@@ -20,7 +20,7 @@ Vue.component(`number-selector`, {
     template: `
 <div class="number-selector">
     <span v-for="num in inputNumbers"
-          class="selectable-number"
+          class="square-box"
           :class="{ active: num === activeNumber }"
           @click="selectionChanged(num)"
     >{{num}}</span>
@@ -48,7 +48,8 @@ Vue.component(`number-selector`, {
             boardFeedback : {
                 correct: false,
                 wrong: false
-            }
+            },
+            eraseMode: false
         },
         created() {
             const numbers = Sudoku.generate();
@@ -72,11 +73,17 @@ Vue.component(`number-selector`, {
             },
             editableNums() {
                 return this.numbers.filter(numObj => numObj.editable);
+            },
+            isBoardEmpty() {
+                return this.editableNums.filter(numObj => numObj.playerValue !== undefined).length === 0;
             }
         },
         methods: {
             editableClick(numObj) {
-                numObj.playerValue = this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
+                numObj.playerValue = this.eraseMode || this.activeNumber === numObj.playerValue ? undefined : this.activeNumber;
+                if (this.isBoardEmpty) {
+                    this.eraseMode = false;
+                }
             },
             selectionChanged(num) {
                 this.activeNumber = num;
@@ -102,6 +109,9 @@ Vue.component(`number-selector`, {
                 setTimeout(() => {
                     this.boardFeedback.correct = this.boardFeedback.wrong = false;
                 }, 3000);
+            },
+            toggleEraseMode() {
+                this.eraseMode = !this.eraseMode;
             }
         },
         template: `
@@ -115,6 +125,7 @@ Vue.component(`number-selector`, {
         </div>
         <number-selector class="vertical" :input-numbers="inputNumbers" :activeNumber="activeNumber" @selection-changed="selectionChanged"></number-selector>
         <number-selector :input-numbers="inputNumbers" :activeNumber="activeNumber" @selection-changed="selectionChanged"></number-selector>
+        <span class="square-box" :class="{ eraseMode }" @click="toggleEraseMode">X</span>
     </div>
     <button @click="clearInputs">Clear</button>
     <button @click="toggleReveal">{{isRevealed ? 'Conceal' : 'Reveal'}}</button>

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Sudoku</title>
+    <meta name="viewport" content="width=device-width">
+
     <script src="lib/vue.min.js"></script>
     <script src="src/sudoku.js"></script>
     <script src="src/ps-output.js"></script>
@@ -78,17 +80,21 @@
             grid-column: 2 / 2;
             flex-direction: column-reverse;
         }
-        .selectable-number {
+        .square-box {
             display: inline-block;
             border: 1px solid #777777;
             box-sizing: border-box;
             width: 34px;
             height: 34px;
             line-height: 31px;
+            text-align: center;
             cursor: pointer;
         }
-        .selectable-number.active {
+        .square-box.active {
             background-color: lawngreen;
+        }
+        .square-box.eraseMode {
+            background-color: #e23;
         }
 
         button {
