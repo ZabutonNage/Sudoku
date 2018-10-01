@@ -30,9 +30,6 @@ Vue.component(`number-selector`, {
 
 
 (PS => {
-    // TODO implement some sort of check button to conclude the game
-    // TODO implement eraser for when you want to clear several differing numbers
-
     const Sudoku = {
         generate: PS[`Sudoku.Generation`].generate,
         isValid: PS[`Sudoku.Validation`].isValid
