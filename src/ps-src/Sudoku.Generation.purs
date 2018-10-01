@@ -104,7 +104,7 @@ appendYs :: PartialBlockRow -> Int -> Triple Int -> PartialBlockRow
 appendYs (PartialBlockRow block1 block2 block3) num (Triple y1 y2 y3) =
     PartialBlockRow ((PartialNum num y1):block1) ((PartialNum num y2):block2) ((PartialNum num y3):block3)
 
-getYs :: PartialBlockRow -> Triple Int  -- really a List, not a Triple?
+getYs :: PartialBlockRow -> Triple Int
 getYs (PartialBlockRow block1 block2 block3) = Triple y1 y2 y3
   where
   y1 = get1stBlockY block1
