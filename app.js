@@ -53,10 +53,9 @@ Vue.component(`number-selector`, {
         },
         created() {
             const numbers = Sudoku.generate();
-            // const numbers = newSudoku().getNumbers();
 
             // TODO high amounts of indices to remove don't reliably result in a unique puzzle
-            const removableIndices = getRemovableIndices(numbers, 42);  // 57 seems max, 56 is reasonably likely to succeed
+            const removableIndices = SudokuJS.getRemovableIndices(numbers, 42);  // 57 seems max, 56 is reasonably likely to succeed
 
             this.numbers = numbers.map((value, i) => {
                 const editable = removableIndices.includes(i);
